@@ -6,7 +6,195 @@
   <title>Town of Florida — Site Admin</title>
 </head>
 <body>
-  <!-- Decap CMS -->
+  <script>window.CMS_MANUAL_INIT = true;</script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    CMS.init({
+      config: {
+        backend: {
+          name: 'github',
+          repo: 'aricoenterprises/TOF_11ty',
+          branch: 'main',
+          base_url: 'https://tof.berkshireit.com',
+          auth_endpoint: 'api/auth'
+        },
+        publish_mode: 'editorial_workflow',
+        media_folder: 'src/images/uploads',
+        public_folder: '/images/uploads',
+        collections: [
+          {
+            name: 'announcements',
+            label: 'Announcements',
+            description: 'Town announcements shown on the homepage and Announcements page.',
+            files: [
+              {
+                name: 'announcements',
+                label: 'All Announcements',
+                file: 'src/_data/announcements.json',
+                fields: [
+                  {
+                    label: 'Featured Announcements (shown on homepage)',
+                    name: 'featured',
+                    widget: 'list',
+                    summary: '{{fields.title}}',
+                    fields: [
+                      { label: 'Title', name: 'title', widget: 'string' },
+                      { label: 'Description', name: 'description', widget: 'text' },
+                      { label: 'File URL', name: 'url', widget: 'string', hint: 'Paste the full URL to the PDF or Word document' },
+                      {
+                        label: 'File Type', name: 'type', widget: 'select',
+                        options: [
+                          { label: 'PDF', value: 'pdf' },
+                          { label: 'Word Document', value: 'docx' }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    label: 'Announcement Sections (full Announcements page)',
+                    name: 'sections',
+                    widget: 'list',
+                    summary: '{{fields.title}}',
+                    fields: [
+                      { label: 'Section ID (no spaces)', name: 'id', widget: 'string' },
+                      { label: 'Section Title', name: 'title', widget: 'string' },
+                      { label: 'Section Description', name: 'description', widget: 'text' },
+                      {
+                        label: 'Documents in this section',
+                        name: 'items',
+                        widget: 'list',
+                        summary: '{{fields.title}}',
+                        fields: [
+                          { label: 'Title', name: 'title', widget: 'string' },
+                          { label: 'Description', name: 'description', widget: 'text', required: false },
+                          { label: 'File URL', name: 'url', widget: 'string' },
+                          {
+                            label: 'File Type', name: 'type', widget: 'select',
+                            options: [
+                              { label: 'PDF', value: 'pdf' },
+                              { label: 'Word Document', value: 'docx' }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            name: 'minutes',
+            label: 'Minutes & Reports',
+            description: 'Selectboard meeting minutes, annual reports, warrants, and agendas.',
+            files: [
+              {
+                name: 'minutes',
+                label: 'All Minutes & Reports',
+                file: 'src/_data/minutes.json',
+                fields: [
+                  {
+                    label: 'Selectboard Meeting Minutes (by Fiscal Year)',
+                    name: 'selectboard_minutes',
+                    widget: 'list',
+                    summary: 'FY {{fields.fy}}',
+                    fields: [
+                      { label: 'Fiscal Year (number only, e.g. 2026)', name: 'fy', widget: 'number' },
+                      { label: 'Label', name: 'label', widget: 'string', hint: 'e.g. "FY 2026 — Selectboard Minutes"' },
+                      { label: 'Open by default?', name: 'open', widget: 'boolean', default: false },
+                      {
+                        label: 'Meeting Documents',
+                        name: 'docs',
+                        widget: 'list',
+                        summary: '{{fields.name}}',
+                        fields: [
+                          { label: 'Meeting Date / Name', name: 'name', widget: 'string', hint: 'e.g. "April 8, 2026"' },
+                          {
+                            label: 'File Type', name: 'type', widget: 'select',
+                            options: [
+                              { label: 'Word Document', value: 'docx' },
+                              { label: 'PDF', value: 'pdf' }
+                            ]
+                          },
+                          { label: 'File URL', name: 'url', widget: 'string' }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    label: 'Annual Town Reports',
+                    name: 'annual_reports',
+                    widget: 'list',
+                    summary: '{{fields.year}} — {{fields.title}}',
+                    fields: [
+                      { label: 'Year Label (e.g. FY 2024)', name: 'year', widget: 'string' },
+                      { label: 'Report Title', name: 'title', widget: 'string' },
+                      { label: 'File URL', name: 'url', widget: 'string' }
+                    ]
+                  },
+                  {
+                    label: 'Town Meeting Warrants',
+                    name: 'warrants',
+                    widget: 'list',
+                    summary: '{{fields.year}} — {{fields.title}}',
+                    fields: [
+                      { label: 'Year Label (e.g. FY 2026)', name: 'year', widget: 'string' },
+                      { label: 'Document Title', name: 'title', widget: 'string' },
+                      { label: 'File URL', name: 'url', widget: 'string' }
+                    ]
+                  },
+                  {
+                    label: 'Meeting Agendas',
+                    name: 'agendas',
+                    widget: 'list',
+                    summary: '{{fields.date}} — {{fields.title}}',
+                    fields: [
+                      { label: 'Date (e.g. May 6, 2026)', name: 'date', widget: 'string' },
+                      { label: 'Agenda Title', name: 'title', widget: 'string' },
+                      { label: 'File URL', name: 'url', widget: 'string' }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            name: 'forms',
+            label: 'Forms & Documents',
+            description: 'Downloadable forms shown on the Forms page.',
+            files: [
+              {
+                name: 'forms',
+                label: 'Town Forms',
+                file: 'src/_data/forms.json',
+                fields: [
+                  {
+                    label: 'Forms',
+                    name: 'forms',
+                    widget: 'list',
+                    summary: '{{fields.title}}',
+                    fields: [
+                      { label: 'Form Title', name: 'title', widget: 'string' },
+                      { label: 'Description', name: 'description', widget: 'text' },
+                      { label: 'File URL', name: 'url', widget: 'string' },
+                      {
+                        label: 'Icon', name: 'iconType', widget: 'select',
+                        options: [
+                          { label: 'Home / Address', value: 'home' },
+                          { label: 'Tool / Permit', value: 'tool' },
+                          { label: 'Lightning / Electrical', value: 'zap' },
+                          { label: 'Shield / Safety', value: 'shield' }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
 </body>
 </html>
