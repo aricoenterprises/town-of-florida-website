@@ -77,7 +77,10 @@ export default {
               type: 'file',
               description: 'Upload the PDF or Word document.',
               options: { accept: '.pdf,.docx' },
-              validation: Rule => Rule.required()
+              validation: Rule => Rule.custom((value, context) => {
+                if (!value && !context.parent?.fileUrl) return 'Please upload a document.'
+                return true
+              })
             }
           ]
         }

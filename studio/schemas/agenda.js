@@ -30,7 +30,10 @@ export default {
       type: 'file',
       description: 'Upload the agenda PDF.',
       options: { accept: '.pdf' },
-      validation: Rule => Rule.required()
+      validation: Rule => Rule.custom((value, context) => {
+        if (!value && !context.document?.fileUrl) return 'Please upload a PDF.'
+        return true
+      })
     }
   ]
 }

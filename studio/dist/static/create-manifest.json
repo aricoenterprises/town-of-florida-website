@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-05-06T15:19:12.221Z",
+  "createdAt": "2026-05-06T15:32:25.302Z",
   "studioVersion": "5.24.0",
   "version": 3,
   "workspaces": [
@@ -13,7 +13,7 @@
       },
       "name": "town-of-florida",
       "projectId": "hs5p5cc4",
-      "schema": "291cb182.create-schema.json",
+      "schema": "3fec6037.create-schema.json",
       "title": "Town of Florida",
       "tools": "ef87c8fe.create-tools.json"
     }
