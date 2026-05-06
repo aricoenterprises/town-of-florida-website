@@ -46,8 +46,8 @@ export default {
           type: 'object',
           name: 'meetingDoc',
           title: 'Meeting Document',
-          // Expand inline — no popup dialog
-          options: { modal: { type: 'dialog', width: 'medium' }, collapsible: false },
+          // Expand inline in the list — no popup dialog
+          options: { collapsible: true, collapsed: false },
           preview: {
             select: { title: 'meetingName', subtitle: 'fileType' },
             prepare({ title, subtitle }) {

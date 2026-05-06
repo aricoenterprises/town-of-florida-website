@@ -30,188 +30,45 @@ permalink: officials.html
         <button class="dept-filter__btn" data-filter="inspectors">Inspectors &amp; Permits</button>
       </div>
 
-      <div class="dept-section" id="selectmen" data-category="elected">
+      {% for dept in officials.departments %}
+      <div class="dept-section" id="{{ dept.anchorId }}" data-category="{{ dept.category }}">
         <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V10M18 21V10M12 21V10M3 10l9-7 9 7"/></svg></div>
-          <div><div class="dept-section__title">Board of Selectmen</div><div class="dept-section__sub">Meets every other Wednesday at 6:00pm · (413) 662-2448 ext. 0 · TownAdmin@TownOfFlorida.org</div></div>
+          <div class="dept-section__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              {{ iconSvgs[dept.icon] | safe }}
+            </svg>
+          </div>
+          <div>
+            <div class="dept-section__title">{{ dept.title }}</div>
+            {% if dept.subtitle %}<div class="dept-section__sub">{{ dept.subtitle }}</div>{% endif %}
+          </div>
         </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Neil Oleson</div><div class="official-card__divider"></div><div class="official-card__role">Selectmen Chair</div><div class="official-card__info">Select Board meets every other Wednesday at 6:00pm<br>Phone: (413) 662-2448 ext. 0<br><a href="mailto:townadmin@townofflorida.org">townadmin@townofflorida.org</a></div></div>
-          <div class="official-card"><div class="official-card__name">Michael Bedini</div><div class="official-card__divider"></div><div class="official-card__role">Selectmen</div></div>
-          <div class="official-card"><div class="official-card__name">Timothy Zelazo</div><div class="official-card__divider"></div><div class="official-card__role">Selectmen</div></div>
-          <div class="official-card" style="background:var(--clr-light);"><div class="official-card__name">Current or Emergency Town Notice</div><div class="official-card__divider"></div><div class="official-card__info">For current emergency notices, please contact Town Hall at (413) 662-2448 or check the <a href="/announcements.html">Announcements</a> page.</div></div>
-        </div>
-      </div>
 
-      <div class="dept-section" id="town-admin" data-category="admin">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-          <div><div class="dept-section__title">Town Administrator</div><div class="dept-section__sub">M, T, Th, F: 8:30am–4:00pm · Wednesday: 12:00pm–7:30pm</div></div>
-        </div>
         <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Joan Lewis</div><div class="official-card__divider"></div><div class="official-card__role">Town Administrator</div><div class="official-card__info">M, T, Th, F: 8:30am–4:00pm · Wednesday: 12:00pm–7:30pm<br>Phone: 413-662-2448 ext. 0<br><a href="mailto:TownAdmin@TownOfFlorida.org">TownAdmin@TownOfFlorida.org</a></div></div>
-        </div>
-      </div>
+          {% for official in dept.officials %}
+          <div class="official-card"{% if official.isHighlighted %} style="background:var(--clr-light);"{% endif %}>
+            <div class="official-card__name">{{ official.name }}</div>
+            <div class="official-card__divider"></div>
+            {% if official.role %}<div class="official-card__role">{{ official.role }}</div>{% endif %}
 
-      <div class="dept-section" id="school" data-category="services">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 7l9-4 9 4M4 7v14M20 7v14M9 21v-4a3 3 0 016 0v4"/></svg></div>
-          <div><div class="dept-section__title">Abbott Memorial School</div><div class="dept-section__sub">56 North County Road, Florida MA 01247</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Griffin Labbance</div><div class="official-card__divider"></div><div class="official-card__role">Principal</div><div class="official-card__info">56 North County Road, Florida MA 01247<br>Phone: (413) 664-6023<br><a href="mailto:glabbance@abbottmemorial.org">glabbance@abbottmemorial.org</a></div></div>
-          <div class="official-card"><div class="official-card__name">John Franzoni</div><div class="official-card__divider"></div><div class="official-card__role">Superintendent</div><div class="official-card__info">Northern Berkshire School Union<br>26 Union Street, Suite 1A, North Adams MA 01247<br>Phone: (413) 664-9292<br><a href="mailto:jfranzoni@nbsunion.com">jfranzoni@nbsunion.com</a></div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="accountant" data-category="admin">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
-          <div><div class="dept-section__title">Town Accountant</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Rebecca Choquette</div><div class="official-card__divider"></div><div class="official-card__role">Town Accountant</div><div class="official-card__info">Phone: 413-662-2448 ext. 1<br><a href="mailto:Accountant@TownOfFlorida.org">Accountant@TownOfFlorida.org</a></div></div>
+            {%- set hasInfo = official.hours or official.address or official.phone or official.email or official.notes or (official.links and official.links | length) -%}
+            {% if hasInfo %}
+            <div class="official-card__info">
+              {%- if official.hours -%}{{ official.hours }}<br>{%- endif -%}
+              {%- if official.address -%}{{ official.address | nl2br | safe }}<br>{%- endif -%}
+              {%- if official.phone -%}Phone: {{ official.phone }}<br>{%- endif -%}
+              {%- if official.email -%}<a href="mailto:{{ official.email }}">{{ official.email }}</a>{%- if official.notes or (official.links and official.links | length) -%}<br>{%- endif -%}{%- endif -%}
+              {%- if official.notes -%}{{ official.notes | nl2br | safe }}{%- if official.links and official.links | length -%}<br>{%- endif -%}{%- endif -%}
+              {%- for link in official.links -%}
+              <a href="{{ link.url }}"{% if 'http' in link.url %} target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>{%- if not loop.last -%}<br>{%- endif -%}
+              {%- endfor -%}
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
         </div>
       </div>
-
-      <div class="dept-section" id="assessors" data-category="elected">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-          <div><div class="dept-section__title">Board of Assessors</div><div class="dept-section__sub">Meets every other Monday Evening at 6:00pm · (413) 662-2448 ext. 2 · Assessors@TownOfFlorida.org</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Krista Bishop</div><div class="official-card__divider"></div><div class="official-card__role">Board of Assessor &amp; Clerk</div><div class="official-card__info">Board meets every other Monday Evening at 6:00pm<br>Phone: (413) 662-2448 ext. 2<br><a href="mailto:Assessors@TownOfFlorida.org">Assessors@TownOfFlorida.org</a></div></div>
-          <div class="official-card"><div class="official-card__name">Lawrence Cote</div><div class="official-card__divider"></div><div class="official-card__role">Board of Assessor</div></div>
-          <div class="official-card"><div class="official-card__name">Susan Bedini</div><div class="official-card__divider"></div><div class="official-card__role">Board of Assessors</div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="health" data-category="elected">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
-          <div><div class="dept-section__title">Board of Health</div><div class="dept-section__sub">Meets 4th Tuesday of the month at 3:30pm · (413) 662-2448 ext. 0</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Alfred Bedini, Sr.</div><div class="official-card__divider"></div><div class="official-card__role">Board of Health Chair</div><div class="official-card__info">Meets 4th Tuesday of the month at 3:30pm<br>Phone: (413) 662-2448 extension 0</div></div>
-          <div class="official-card"><div class="official-card__name">Neil Oleson</div><div class="official-card__divider"></div><div class="official-card__role">Board of Health</div></div>
-          <div class="official-card"><div class="official-card__name">Heidi Dugal</div><div class="official-card__divider"></div><div class="official-card__role">Board of Health</div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="building" data-category="inspectors">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
-          <div><div class="dept-section__title">Building Inspector &amp; Zoning Board Inspector</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Brenda Jean Church</div><div class="official-card__divider"></div><div class="official-card__role">Building and Zoning Board Inspector</div><div class="official-card__info"><a href="mailto:bchurch123@gmail.com">bchurch123@gmail.com</a><br>Phone Cell: 413-548-6633<br>Leave a message with your contact information and phone number.<br><br>Permit fee: $10.00 per $1,000.00 of total project cost, with a minimum of $80.00.<br>Make checks payable to: <strong>Town of Florida</strong></div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="coa" data-category="services">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
-          <div><div class="dept-section__title">Council on Aging — Senior Center</div><div class="dept-section__sub">Wed, Thurs, Friday 9:00am–3:00pm · (413) 662-2448 ext. 4 · CouncilOnAging@TownOfFlorida.org</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Sue Oleson</div><div class="official-card__divider"></div><div class="official-card__role">Senior Center Director</div><div class="official-card__info">Wed, Thurs, Friday 9:00am–3:00pm<br>Phone: (413) 662-2448 ext. 4<br><a href="mailto:CouncilOnAging@TownOfFlorida.org">CouncilOnAging@TownOfFlorida.org</a></div></div>
-          <div class="official-card"><div class="official-card__name">Joyce Van Tilborg</div><div class="official-card__divider"></div><div class="official-card__role">Assistant Director</div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="electrical" data-category="inspectors">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-          <div><div class="dept-section__title">Electrical Wiring Inspector</div><div class="dept-section__sub">Permit: Residential $55.00 · Commercial $105.00</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Timothy Keating</div><div class="official-card__divider"></div><div class="official-card__role">Electrical Wiring Inspector</div><div class="official-card__info">Phone: (413) 663-1659<br>Permit — Residential: $55.00 · Commercial: $105.00</div></div>
-          <div class="official-card"><div class="official-card__name">Nickolas C. Keating</div><div class="official-card__divider"></div><div class="official-card__role">Assistant Electrical Wiring Inspector</div><div class="official-card__info">Phone: 413-281-7672<br>Permit — Residential: $55.00 · Commercial: $105.00</div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="library" data-category="services">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
-          <div><div class="dept-section__title">Florida Free Library</div><div class="dept-section__sub">56 North County Road, Florida MA 01247 · (413) 664-0153</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Heidi Dugal</div><div class="official-card__divider"></div><div class="official-card__role">Director</div><div class="official-card__info">56 North County Road, Florida MA 01247<br>Phone: (413) 664-0153<br><a href="mailto:Director@FloridaFreeLibrary.com">Director@FloridaFreeLibrary.com</a></div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="fire" data-category="safety">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-          <div><div class="dept-section__title">Florida Volunteer Fire Department</div><div class="dept-section__sub">139 Mohawk Trail, Florida MA 01247 · Burn Permits: Tuesday Nights 6pm–9pm</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Michael Gleason</div><div class="official-card__divider"></div><div class="official-card__role">Chief</div><div class="official-card__info">139 Mohawk Trail, Florida MA 01247<br>Phone: (413) 662-2448 ext. 6<br><a href="mailto:MikeFVFD@gmail.com">MikeFVFD@gmail.com</a><br><br><strong>BURN PERMITS</strong> available Tuesday Nights 6pm–9pm</div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="highway" data-category="services">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-          <div><div class="dept-section__title">Highway Department</div><div class="dept-section__sub">Hours: 7:00am–3:30pm · (413) 662-2448 ext. 5 · Cell: 413-664-1691</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">James White</div><div class="official-card__divider"></div><div class="official-card__role">Highway Supervisor</div><div class="official-card__info">Phone: (413) 662-2448 ext. 5<br>Cell: 413-664-1691<br><a href="mailto:Highway@TownOfFlorida.org">Highway@TownOfFlorida.org</a><br>Hours: 7:00am–3:30pm</div></div>
-          <div class="official-card"><div class="official-card__name">Michael Gleason</div><div class="official-card__divider"></div><div class="official-card__role">Highway</div></div>
-          <div class="official-card"><div class="official-card__name">Michael Worth</div><div class="official-card__divider"></div><div class="official-card__role">Highway</div></div>
-          <div class="official-card"><div class="official-card__name">Christopher Sahady</div><div class="official-card__divider"></div><div class="official-card__role">Highway</div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="police" data-category="safety">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <div><div class="dept-section__title">Police Department</div><div class="dept-section__sub">For emergencies, always dial 911</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Massachusetts State Police — Cheshire Barracks</div><div class="official-card__divider"></div><div class="official-card__role">Police Department</div><div class="official-card__info"><strong style="color:var(--clr-primary);">For Emergencies: DIAL 911</strong><br><br>Non-Emergencies and Police Reporting:<br>Call Cheshire Barracks Mass State Police<br>Phone: <a href="tel:4137434700">413-743-4700</a></div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="town-clerk" data-category="admin">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-          <div><div class="dept-section__title">Town Clerk</div><div class="dept-section__sub">Wednesday Evenings 6:00pm–7:30pm · (413) 662-2448 ext. 3</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Lisa H. Brown</div><div class="official-card__divider"></div><div class="official-card__role">Town Clerk</div><div class="official-card__info">Wednesday Evenings 6:00pm–7:30pm<br>Phone: (413) 662-2448 ext. 3<br><a href="mailto:Clerk@TownOfFlorida.org">Clerk@TownOfFlorida.org</a></div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="tax-collector" data-category="admin">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
-          <div><div class="dept-section__title">Tax Collector</div><div class="dept-section__sub">First and Third Wednesday of the month, 4:30pm–6:00pm</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Stephanie Pare</div><div class="official-card__divider"></div><div class="official-card__role">Tax Collector</div><div class="official-card__info">Office Hours: First and Third Wednesday, 4:30pm–6:00pm<br>Phone: (413) 464-1449<br><a href="mailto:TaxCollector@TownOfFlorida.org">TaxCollector@TownOfFlorida.org</a><br><br>Online Payments: <a href="https://paymybills.link/floridama" target="_blank" rel="noopener">paymybills.link/floridama</a><br>Deputy Tax Collection: <a href="https://www.kelleyryan.com" target="_blank" rel="noopener">www.kelleyryan.com</a></div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="treasurer" data-category="admin">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
-          <div><div class="dept-section__title">Treasurer</div><div class="dept-section__sub">Office Hours: Wednesday evenings 5:30pm–7:30pm</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Stacy Abuisi</div><div class="official-card__divider"></div><div class="official-card__role">Treasurer</div><div class="official-card__info">Office Hours: Wednesday evenings 5:30pm–7:30pm<br><a href="mailto:Treasurer@TownOfFlorida.org">Treasurer@TownOfFlorida.org</a><br>Phone: 413-662-2448 ext. 1</div></div>
-        </div>
-      </div>
-
-      <div class="dept-section" id="veterans" data-category="services">
-        <div class="dept-section__header">
-          <div class="dept-section__icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
-          <div><div class="dept-section__title">Veterans' Services Officer</div><div class="dept-section__sub">District Director of Northern Berkshire County</div></div>
-        </div>
-        <div class="card-grid">
-          <div class="official-card"><div class="official-card__name">Kurtis Durocher</div><div class="official-card__divider"></div><div class="official-card__role">Veterans' Services Officer / District Director of Northern Berkshire County</div><div class="official-card__info">City of North Adams Veterans' Office<br>10 Main St, Room 101, North Adams, MA 01247<br>Office: (413) 662-3040<br>Cell: (413) 672-5163<br><a href="mailto:kdurocher@northadams-ma.gov">kdurocher@northadams-ma.gov</a></div></div>
-        </div>
-      </div>
+      {% endfor %}
 
     </div>
   </section>

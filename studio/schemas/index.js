@@ -5,6 +5,7 @@ import agenda from './agenda'
 import announcement from './announcement'
 import form from './form'
 import siteSettings from './siteSettings'
+import department from './department'
 
 export const schemaTypes = [
   selectboardMinuteGroup,
@@ -14,4 +15,5 @@ export const schemaTypes = [
   announcement,
   form,
   siteSettings,
+  department,
 ]

@@ -43,6 +43,10 @@ export default defineConfig({
             S.listItem()
               .title('Forms & Documents')
               .child(S.documentTypeList('form').title('Forms & Documents')),
+            S.divider(),
+            S.listItem()
+              .title('Town Departments & Officials')
+              .child(S.documentTypeList('department').title('Town Departments & Officials').defaultOrdering([{ field: 'order', direction: 'asc' }])),
           ])
     }),
     visionTool(),

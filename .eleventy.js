@@ -1,4 +1,9 @@
 module.exports = function(eleventyConfig) {
+  // Custom filters
+  eleventyConfig.addFilter('nl2br', function(str) {
+    return str ? String(str).replace(/\n/g, '<br>') : ''
+  })
+
   // Pass through static assets unchanged
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/js");
