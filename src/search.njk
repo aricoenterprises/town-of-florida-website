@@ -1,0 +1,38 @@
+---
+layout: base.njk
+title: "Search — Town of Florida, MA"
+description: "Search the Town of Florida website for officials, announcements, documents, and more."
+navKey: search
+permalink: search.html
+---
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+
+  <div class="page-header">
+    <div class="container">
+      <p class="page-header__eyebrow">Town of Florida, MA</p>
+      <h1 class="page-header__title">Search</h1>
+      <p class="page-header__desc">Search across all pages — officials, announcements, minutes, forms, and more.</p>
+    </div>
+  </div>
+
+  <div class="breadcrumb container">
+    <a href="/">Home</a><span>›</span> Search
+  </div>
+
+  <section class="section">
+    <div class="container" style="max-width:760px;">
+      <div id="search"></div>
+    </div>
+  </section>
+
+<script src="/pagefind/pagefind-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    new PagefindUI({
+      element: '#search',
+      showSubResults: true,
+      resetStyles: false,
+    })
+  })
+</script>
