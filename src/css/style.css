@@ -619,7 +619,20 @@ p:last-child { margin-bottom: 0; }
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  position: relative;
+  overflow: hidden;
 }
+.quick-link::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--clr-gold), var(--clr-primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s var(--ease);
+}
+.quick-link:hover::before { transform: scaleX(1); }
 .quick-link:hover {
   transform: translateY(-5px);
   box-shadow: 0 0 0 2px rgba(192,121,65,.55), 0 8px 32px rgba(192,121,65,.2), 0 1px 0 rgba(255,255,255,.8) inset;
