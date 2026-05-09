@@ -26,6 +26,7 @@
   --clr-gold:      #c07941;
   --clr-gold-lt:   #d4895c;
   --clr-gold-glow: rgba(192,121,65,.15);
+  --clr-gold-text:  #7a4a1e;
 
   /* Neutrals — warm, paper-toned */
   --clr-dark:        #1a1a2e;
@@ -132,7 +133,7 @@ p:last-child { margin-bottom: 0; }
   font-weight: 500;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--clr-gold);
+  color: var(--clr-gold-text);
   background: rgba(192,121,65,.08);
   padding: 5px 16px;
   border-radius: 100px;
@@ -754,7 +755,7 @@ p:last-child { margin-bottom: 0; }
   font-weight: 600;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--clr-gold);
+  color: var(--clr-gold-text);
   margin-bottom: 8px;
 }
 .card__title { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: var(--clr-dark); font-family: var(--font-display); }
@@ -838,7 +839,7 @@ p:last-child { margin-bottom: 0; }
 .official-card__name { font-size: .95rem; font-weight: 700; margin-bottom: 3px; color: var(--clr-dark); }
 .official-card__role {
   font-size: .7rem;
-  color: var(--clr-gold);
+  color: var(--clr-gold-text);
   font-weight: 600;
   margin-bottom: 10px;
   text-transform: uppercase;
@@ -862,7 +863,7 @@ p:last-child { margin-bottom: 0; }
   transition: all .2s var(--ease);
 }
 .minutes-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); }
-.minutes-card__year { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--clr-gold); margin-bottom: 5px; }
+.minutes-card__year { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--clr-gold-text); margin-bottom: 5px; }
 .minutes-card__title { font-size: .95rem; font-weight: 700; margin-bottom: 6px; color: var(--clr-dark); }
 .minutes-card__desc { font-size: .84rem; color: var(--clr-mid); margin-bottom: 14px; }
 .minutes-card__link { font-size: .84rem; font-weight: 600; color: var(--clr-primary); }
@@ -1326,13 +1327,13 @@ p:last-child { margin-bottom: 0; }
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  color: var(--clr-gold);
+  color: var(--clr-gold-text);
   line-height: 1;
   font-weight: 400;
   transition: background .2s, border-color .2s;
 }
 .collapse-section summary:hover { background: var(--clr-light); }
-.collapse-section summary:hover .summary-toggle { background: var(--clr-white); border-color: var(--clr-gold); }
+.collapse-section summary:hover .summary-toggle { background: var(--clr-white); border-color: var(--clr-gold-text); }
 .collapse-section[open] summary { border-bottom: 1px solid var(--clr-border); }
 .collapse-section[open] summary .summary-toggle { content: '−'; }
 
@@ -1363,7 +1364,7 @@ p:last-child { margin-bottom: 0; }
   flex-shrink: 0;
 }
 .doc-item__badge--pdf { background: rgba(27,79,114,.08); color: var(--clr-primary); border: 1px solid rgba(27,79,114,.18); }
-.doc-item__badge--docx { background: rgba(192,121,65,.08); color: var(--clr-gold); border: 1px solid rgba(192,121,65,.22); }
+.doc-item__badge--docx { background: rgba(192,121,65,.08); color: var(--clr-gold-text); border: 1px solid rgba(192,121,65,.22); }
 .doc-item__badge--xlsx { background: rgba(13,100,60,.08); color: #0d643c; border: 1px solid rgba(13,100,60,.2); }
 .doc-item__link {
   font-size: .8rem;
@@ -1467,4 +1468,46 @@ p:last-child { margin-bottom: 0; }
   .contact-form  { padding: 24px 18px; }
   .stats-bar     { grid-template-columns: 1fr 1fr; }
   .container     { padding: 0 16px; }
+}
+
+/* ============================================================
+   ACCESSIBILITY — WCAG 2.1 AA
+   ============================================================ */
+
+/* Skip navigation link (2.4.1) */
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--clr-primary-dk);
+  color: var(--clr-white) !important;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: .95rem;
+  border-radius: 0 0 var(--radius) var(--radius);
+  text-decoration: none;
+  transition: top .15s;
+}
+.skip-nav:focus {
+  top: 0;
+  outline: 3px solid #f5c97a;
+  outline-offset: 2px;
+}
+
+/* Global focus indicator (2.4.7) */
+:focus-visible {
+  outline: 3px solid var(--clr-gold-text);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Ensure nav links show focus clearly on dark background */
+.nav__links a:focus-visible,
+.nav__mobile a:focus-visible {
+  outline-color: #f5c97a;
+  outline-offset: 4px;
 }

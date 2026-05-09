@@ -11,12 +11,9 @@
 </head>
 <body>
 
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
+
   {% include "nav.njk" %}
 
-  {{ content | safe }}
-
-  {% include "footer.njk" %}
-
-  <script src="/js/main.js"></script>
-</body>
-</html>
+  <main id="main-content">
+    {{ conte

@@ -10,9 +10,11 @@
   const mobileNav = document.querySelector('.nav__mobile');
 
   if (hamburger && mobileNav) {
+    mobileNav.setAttribute('aria-hidden', 'true');
     hamburger.addEventListener('click', function () {
       const isOpen = mobileNav.classList.toggle('open');
       hamburger.setAttribute('aria-expanded', isOpen);
+      mobileNav.setAttribute('aria-hidden', !isOpen);
     });
 
     // Close on outside click
@@ -20,6 +22,7 @@
       if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
         mobileNav.classList.remove('open');
         hamburger.setAttribute('aria-expanded', false);
+        mobileNav.setAttribute('aria-hidden', 'true');
       }
     });
   }
