@@ -1,5 +1,8 @@
 const client = require('./sanityClient')
 
+// How many auto-generated items to surface per document type
+const AUTO_LIMIT = 3
+
 // Section metadata — same order and descriptions as the original JSON
 const SECTION_META = [
   {
@@ -85,32 +88,136 @@ const FALLBACK_FEATURED = [
 ]
 
 // ---------------------------------------------------------------------------
+// Auto-section mapping: document type → announcement section
+// When new documents are added to Sanity, they automatically appear here.
+// ---------------------------------------------------------------------------
 
 module.exports = async function () {
   try {
-    const docs = await client.fetch(`
-      *[_type == "announcement"] | order(order asc, _createdAt desc) {
-        title,
-        description,
-        "url": coalesce(file.asset->url, fileUrl),
-        "type": fileType,
-        section,
-        featured
-      }
-    `)
+    const [
+      docs,
+      topMinuteGroup,
+      agendas,
+      warrants,
+      annualReports,
+    ] = await Promise.all([
+      // Manual announcements (hand-crafted in Studio)
+      client.fetch(`
+        *[_type == "announcement"] | order(order asc, _createdAt desc) {
+          title,
+          description,
+          "url": coalesce(file.asset->url, fileUrl),
+          "type": fileType,
+          section,
+          featured
+        }
+      `),
+      // Most recent selectboard minute group → pull its latest docs
+      client.fetch(`
+        *[_type == "selectboardMinuteGroup"] | order(fy desc) [0] {
+          fy,
+          "docs": documents[0...${AUTO_LIMIT}] {
+            "title": meetingName,
+            "type": fileType,
+            "url": coalesce(file.asset->url, fileUrl)
+          }
+        }
+      `),
+      // Recent agendas
+      client.fetch(`
+        *[_type == "agenda"] | order(date desc) [0...${AUTO_LIMIT}] {
+          title,
+          "url": coalesce(file.asset->url, fileUrl),
+          "type": fileType
+        }
+      `),
+      // Recent warrants (max 2 — these are annual)
+      client.fetch(`
+        *[_type == "warrant"] | order(year desc) [0...2] {
+          title,
+          "url": coalesce(file.asset->url, fileUrl),
+          "type": fileType
+        }
+      `),
+      // Most recent annual report (just 1)
+      client.fetch(`
+        *[_type == "annualReport"] | order(year desc) [0...1] {
+          title,
+          "url": coalesce(file.asset->url, fileUrl),
+          "type": fileType
+        }
+      `),
+    ])
 
-    if (docs && docs.length > 0) {
-      // Per-section fallback: if Sanity has no items for a section, use hardcoded fallback
+    // Build auto-generated items from document types
+    const autoLatestNews = []
+
+    // Selectboard meeting docs → latest-news
+    if (topMinuteGroup && Array.isArray(topMinuteGroup.docs)) {
+      topMinuteGroup.docs.forEach(doc => {
+        if (doc.url) {
+          autoLatestNews.push({
+            title: doc.title || `Selectboard Meeting Minutes — FY${topMinuteGroup.fy}`,
+            url: doc.url,
+            type: doc.type || 'pdf',
+            section: 'latest-news',
+          })
+        }
+      })
+    }
+
+    // Agendas → latest-news
+    ;(agendas || []).forEach(a => {
+      if (a.url) {
+        autoLatestNews.push({
+          title: a.title,
+          url: a.url,
+          type: a.type || 'pdf',
+          section: 'latest-news',
+        })
+      }
+    })
+
+    // Warrants → latest-news
+    ;(warrants || []).forEach(w => {
+      if (w.url) {
+        autoLatestNews.push({
+          title: w.title,
+          url: w.url,
+          type: w.type || 'pdf',
+          section: 'latest-news',
+        })
+      }
+    })
+
+    // Annual reports → latest-news
+    ;(annualReports || []).forEach(r => {
+      if (r.url) {
+        autoLatestNews.push({
+          title: r.title,
+          url: r.url,
+          type: r.type || 'pdf',
+          section: 'latest-news',
+        })
+      }
+    })
+
+    const manualDocs = docs || []
+    const hasContent = manualDocs.length > 0 || autoLatestNews.length > 0
+
+    if (hasContent) {
       const sections = SECTION_META.map(meta => {
-        const sanityItems = docs.filter(d => d.section === meta.id)
+        const manualItems = manualDocs.filter(d => d.section === meta.id)
+        // Auto items only apply to latest-news; other sections use only manual
+        const autoItems = meta.id === 'latest-news' ? autoLatestNews : []
+        const combined = [...manualItems, ...autoItems]
         return {
           ...meta,
-          items: sanityItems.length > 0 ? sanityItems : (FALLBACK_ITEMS[meta.id] || []),
+          items: combined.length > 0 ? combined : (FALLBACK_ITEMS[meta.id] || []),
         }
       })
 
-      // Featured: use Sanity items if any are marked featured, else use fallback
-      const sanityFeatured = docs.filter(d => d.featured)
+      const sanityFeatured = manualDocs.filter(d => d.featured)
       const featured = sanityFeatured.length > 0 ? sanityFeatured : FALLBACK_FEATURED
 
       return { featured, sections }
